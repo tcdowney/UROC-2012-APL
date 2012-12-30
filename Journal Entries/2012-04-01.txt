@@ -1,0 +1,108 @@
+﻿Tim Downey
+APL Dyalog Journal
+4-01-2012
+
+Entry 9:
+
+1.  Covered for this entry:
+
+For this entry I have decided to take a break from reading the text in 
+sequence.  Instead, I am going to attempt a more targetted approach and skip
+to/reread sections that I think will be more relevant.  For these reasons
+I am going to revisit the section on Flow Control/Input and Output (167-203)
+due to its relevancy to the Fortran code in the NPB Parallel Benchmarks and
+I am also covering Chapter K, Mathematical Functions (431-461) because I think
+it could be useful as well.
+
+This journal will primarily cover Chapter K, however.
+
+2.  What I found interesting:
+
+I was surprised to find out that the Grade Up and Grade Down functions returned
+a sorted array of indices in lieu of the sorted array itself.  While it is a
+bit unusual, I do see the value in having this intermediate result available. 
+
+Although I'm sure that similar functionality to Grade Up and Grade Down could
+be achieved in other programming languages after the sorted array has been
+returned, I believe that the Dyalog APL implementation of sorting makes the
+programmer think differently about the sorting process and could lead to
+some potentially novel problem solving.  At the very least it made me rethink
+sorting.
+
+3. Difficulties:
+
+I had some trouble figuring out Encode and Decode, and I spent most of my time
+with Chapter K digesting it.  When the text explained them in terms of inner
+products all it did was make me realize that I didn't really understand inner
+products themselves.  So I spent a few minutes around with the Encode/Decode
+and Inner/Outer Product operators to get a better feel of them and I think it
+helped.
+
+4. What I Found Easy:
+
+I really enjoy the implementation of randomization in APL.  In comparison to a
+language such as Java, I found Deal and Roll to be very simple.  There was no
+worrying about converting doubles to integers and I was glad that the operators
+didn't return a number between 0 and 1, but instead they returned just plain
+old integers.  I believe that the APL implementation is much more natural.
+
+5. Impressions:
+
+I've never taken a linear algebra course so I am pretty uncomfortable with
+matrix math so I don't really have any comments regarding the section of 
+Chapter K that dealt with inverting matrices and the like.
+
+6. Dislikes:
+
+I dislike the fact that the * symbol is used for logarithms.  To me the *
+is just so engrained as the symbol for multiplication for me that I still
+get tripped up sometimes when I see it used in this alternate context.
+
+Although the Mastering Dyalog text claims that the x multiplication symbol
+is the most natural due to its use in early education, I personally disagree.
+I don't believe that I've used the x symbol for multiplication since elementary
+school.  Instead, I (and most others that I've seen) tend to use a simple dot
+for multiplication (when it is handwritten).  To me, the * symbol resembles
+this and I have never had any confusion with it.  Still, this is pretty minor.
+
+Additionally, I find it strange that they use a circle symbol for pi in lieu of just
+outright using the Greek letter π.  While I do believe that I understand the
+thought process behind the circle, it just seems odd to me that a programming
+language that is so dependent on specialized symbols wouldn't just use the
+preexisting accepted symbol for pi.
+
+7. Code:
+
+I spent the time that I would normally spend writing APL code on trying to
+decipher the FORTRAN used in the "Embarassingly Parallel" kernel of the 
+NPB Parallel Benchmarks.  Although I don't actually have any code to show,
+I would like to use this as an opportunity to jot down some of my thoughts
+on APL vs. FORTRAN as, to me at least, they seem like polar opposites.
+
+First of all, I've noticed that in FORTRAN you must explicitly allocate memory
+in "COMMON blocks."  At least, that's my interpretation of the following lines
+in the EP kernel:
+
+common/storage/ x(2*nk), q(0:nq-1)
+data             dum /1.d0, 1.d0, 1.d0/
+
+Now although I'm sure that this isn't needed in APL, I'm left wondering whether
+or not it is needed for an APL translation of the benchmark (or if it's even
+possible to do it manually in Dyalog).
+
+Additionally, I've noticed that there are a lot of nested DO and CONTINUE loops
+in the FORTRAN code and GOTO references used to break out of them.  After
+rereading the section in Mastering Dyalog on Flow Control, I thought a bit on
+how these should be handled.  Although Dyalog APL does have GOTO capability, it
+is said that it should be avoided except in cases of supporting legacy code.
+
+Moreso, is it even "APL-like" to just outright translate these DO/CONTINUE
+loops into nested FOR/CONTINUE (I believe this is the Dyalog APL equivalent)
+loops?  Or should the Each function be used to the fullest extent of its
+capabilities?
+
+Like I've said, I didn't actually have a chance to try to write parts of the
+FORTRAN EP kernel in APL since the language was so foreign to me, but I did
+find myself having a lot of questions!
+
+

@@ -1,0 +1,73 @@
+Tim Downey
+APL Dyalog Journal
+2-23-2012
+
+Entry 4:
+
+1.  Covered for this entry:
+
+In this entry I have covered the second half of Chapter D
+in Mastering Dyalog APL (pages 186-226).  Though this portion of the
+chapter primarily covered traditional flow control and input/out in
+Dyalog, it also touched upon recursion and some of the nuances of APL syntax.
+
+Additionally, this section covered the capabilities of the built in Dyalog
+IDE text editor and briefly mentioned the SALT source code management system.
+
+2.  What I found interesting:
+
+I found the section on I/O very interesting.  The fact that the libraries that
+are included with Dyalog APL support Excel and SQL is impressive and I can
+see how it could be very useful.
+
+Also, using the Print function to print a line out of my printer was fun.
+
+3. Difficulties:
+
+I found the sections on traditional flow control and syntax to be somewhat
+confusing.  To me, the modern style of flow control is much more intuitive
+and the text says that I should be using it anyway, so I don't think I will
+worry about it too much.  If I ever need to use traditional flow control I
+will just reference this section.
+
+In the Syntax section I was a bit confused with the usage of the system
+function ?NC.  However, it says that it will be covered more in Chapter L,
+so we'll see.
+
+4. What I Found Easy:
+
+The section on I/O seemed remarkably simple and I did not have any trouble
+working with the example Excel files or text files.
+
+5. Impressions:
+
+After finishing Chapter D, I've realized that there is a lot of complexity
+regarding the syntax of APL.  Shy results, arguments used as results, nested
+results... at first glance it all seems kind of mind boggling.  However, I've
+noticed that this book often introduces concepts with little explanation and
+then goes on to explain them with in more depth later, so I'll just be
+patient.
+
+6. Dislikes:
+
+I dislike the fact that when using synonyms, that if you accidentally declare
+a variable as synonym instead of an expression, that you cannot just redeclare
+it as what you want.  Instead you have to use )erase to erase it and start all
+over again.
+
+I realize that this might not have made much sense so I'll include the example
+from the text.
+
+What was intended:
+Val <- Average 41 11 19
+
+What was inputted:
+Val <- Average
+
+and that you cannot retype what was intended to fix it.  I understand why
+you cannot, I just don't particularly like it.
+
+
+7. Code:
+
+None

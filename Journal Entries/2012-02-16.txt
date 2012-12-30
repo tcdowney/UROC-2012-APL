@@ -1,0 +1,80 @@
+﻿Tim Downey
+APL Dyalog Journal
+2-16-2012
+
+Entry 2:
+
+1.  Covered for this entry:
+
+At the time of writing this entry I have finished Chapter C of 
+Mastering Dyalog and have practiced with the APL expression for
+tiling an array.  Chapter C focused on the primitive functions of
+Dyalog APL and how they are evalutated.
+
+2.  What I found interesting:
+
+Being but a few chapters in, the most interesting aspects
+of Dyalog APL for me have been its capacity to handle data and the
+sheer simplicity of interacting with it.  Tools such as reduction and
+the pervasiveness of scalar functions appear to accomplish a great
+deal of work for what seems to be very little code written on the
+programmer's part.  Additionally, when I was practicing with the array
+tiling expression, a friend walked in and noticed that I was constructing
+a matrix by tiling other matrices.  He was impressed with himself
+for gathering that with a quick glance and I was impressed with myself
+for constructing it with just a few characters!  There was just a whole
+lot of self-esteem boosting going on and I have APL to thank for that.
+
+3. Difficulties:
+
+Right now, my main difficulties lie with learning what the symbols do,
+axes as operators, and dealing with the shapes and types of data.  For
+me, it was a bit confusing how the axis was used as an operator.  I think
+my problem is that I view [2] as an index of sorts and expect it to 
+come after the matrix (example: Prod[3]).  I know that refers to something
+else, however, and that the [2] is just an operator in itself.  Still,
+it's just something that I found myself confused with.
+
+Also, I am a bit unclear on user defined functions, but I assume that
+topic will be elaborated on at a later time.
+
+4. What I Found Easy:
+
+The chapter in a whole was pretty easy to understand.  Any issues I had
+were just the result of a lack of practice and there were no major
+conceptual issues.
+
+5. Impressions:
+
+Like I mentioned earlier, I am excited about APL and think that it has
+some really interesting things to offer.  Dyalog APL seems like a language
+with real, practical uses and the fact that I could see myself potentially
+using it in the future is definitely a motivating factor.  For the most part,
+the Dyalog IDE is simple to use and I enjoy the REPL-like aspects of it.
+
+6. Dislikes:
+
+Really, so far my only major dislike is that at times my keyboard shortcuts
+stop working in the IDE and I have to save and restart to get them back.
+It says that my keyboard configuration has changed and when I go to see if
+I'm on the UK configuration or something it says I am on the US configuration
+and that everything is normal.  It's not a major problem, but it is definitely
+and annoyance.
+
+Also, I dislike how sometimes in the text they will mention variables that
+are supposed to be defined in the tutorial work spaces.  Many of these
+seem to be missing and it wouldn't be a big deal if the text defined them.
+Usually they do, but sometimes they just write the first few bits and put
+an ellipses.
+
+I don't really have any major dislikes with the language itself thus far, just
+these minor gripes about the IDE and the book.
+
+7. Code:
+
+I haven't written any of my own code so far.  I've just been playing around
+with the matrix tiling expression that you provided and doing the exercises in
+the book.  I've uploaded my workspace for this chapter, though.  It is titled:
+2012-02-16.dws
+
+The matrix tiling expression is stored in a function called TiledMatrix.

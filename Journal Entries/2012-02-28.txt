@@ -1,0 +1,147 @@
+﻿Tim Downey
+APL Dyalog Journal
+2-28-2012
+
+Entry 5:
+
+1.  Covered for this entry:
+
+For this entry I have covered Chapter E in Mastering Dyalog (pg 239-265)
+and I have completed the first three problems on Project Euler and am
+well on my way into finishing the fourth.
+
+2.  What I found interesting:
+
+I didn't find Chapter E particularly interesting.  While tracing and debugging
+is certainly important to know, it isn't exactly a very novel or interesting
+topic.  However, the chapter was refreshingly short and I have no complaints
+in that regard!
+
+What I did find interesting was Project Euler.  Project Euler has always been
+one of those things that I have heard about and meant to try, but have never
+actually gotten around to doing.  Working the first four problems, however,
+was definitely entertaining and, in my opinion, a lot more engaging than the
+exercises in the book.  I think the social aspect of Project Euler was
+definitely a motivating factor for me.
+
+3. Difficulties:
+
+Again, there wasn't anything that was particularly difficult to understand
+in this chapter.  I did have some difficulties with Project Euler, however.
+I found that I spent quite a bit of time looking up symbols to be able to
+complete the problems, but I think it was definitely worth it.  Additionally,
+I had some trouble thinking in the single-line APL mindset and found myself
+turning to using manual while loops.  For all I know these while loops may
+have been necessary, but I probably could have completed some of the problems
+more concisely.
+
+4. What I Found Easy:
+
+I found the chapter fairly easy in general.  I experienced many of the error
+dialogues first hand while trying to answer some of the problems and I thought
+it was pretty intuitive.
+
+5. Impressions:
+
+It was nice to be able to apply some of my APL knowledge and test myself to see
+what I have truly learned.  I think Project Euler is an excellent tool for
+learning a new language.
+
+6. Dislikes:
+
+I had no dislikes.
+
+
+7. Code:
+
+Here is the code that I've written so far for project Euler.
+Problem 4 is still a work in progress for me, but here is the
+code that I've written so far for it.
+
+Project Euler:
+
+Problem 1:
+Find the sum of all the multiples of 3 or 5 below 1000.
+
+	
+	nats ← ⍳999
+	+/ ((((3|nats) = 0) ∨ ((5|nats) = 0))/nats)
+
+	Answer: 233168
+
+--------------------------------
+
+Problem 2:
+By considering the terms in the Fibonacci sequence whose values 
+do not exceed four million, find the sum of the even-valued terms.
+
+	Fib Function:
+
+	res←fib;int;res;seq
+ 	int←3
+ 	res←0 1
+ 	:Repeat
+    		res←res,(res[int-2]+res[int-1])
+     		int←int+1
+ 	:Until (4000000≤res[int-1])
+ 	res←res[⍳int-2]
+
+	Addition of Evens:
+
+	+/ ((2 | fib) = 0) / fib
+
+	Answer: 4613732
+
+--------------------------------
+
+Problem 3:
+What is the largest prime factor of the number 600851475143?
+
+	Prime Factorization Function:
+
+	res←primetime n;n;res;i
+ 	i←2
+ 	res←⍬
+
+	:While i≤n
+
+		:While ((i|n)=0)
+     			res←res,i
+         		n←n÷i
+		:EndWhile
+
+     		i←i+1
+ 	:EndWhile
+
+
+
+	⌈/primetime 600851475143
+
+	
+	Answer: 6857
+
+--------------------------------
+
+Problem 4:
+Find the largest palindrome made from the product of two 3-digit numbers.
+
+	Palindrome Function:
+
+res←palindrome;x;y;res
+ x←999
+ y←999
+
+ :While ((x>99)∧((⍎⍕x×y)≠(⍎⌽⍕x×y)))
+
+     :While ((y>99)∧((⍎⍕x×y)≠(⍎⌽⍕x×y)))
+        ⍝ :If ((⍎⍕x×y)=(⍎⌽⍕x×y))
+        ⍝     res←x×y
+        ⍝     :Leave
+     ⍝:EndIf
+         y←y-1
+     :EndWhile
+     x←x-1
+ :EndWhile
+ res←x×y
+
+

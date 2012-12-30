@@ -1,0 +1,79 @@
+﻿Tim Downey
+APL Dyalog Journal
+3-25-2012
+
+Entry 8:
+
+1.  Covered for this entry:
+
+For this entry I have covered chapters H and I in (pages 325-369) in 
+Mastering Dyalog APL.  Chapter H briefly covered some Dyalog specific
+syntax (Modified assignment, Multiple Assignment, and Selective assignment)
+and Chapter I dealt with nested arrays and their associated operations.
+
+2.  What I found interesting:
+
+Though it was but a few pages long, I actually found Chapter H
+(Specific Syntax) to be really interesting.  I've always found rewriting the
+variable name to be a bit cumbersome and I wished that APL had += equivalent.
+
+I found out that it did in this chapter (ie. Var +← 5) and I was pleasantly
+surprised.  Additionally, it was good to learn about multiple assignment and
+selective assignment.  My only worry is that these shortcuts might make 
+understanding APL code more difficult.  APL is a pretty terse and condensed
+language and I could definitely see myself getting confused by multiple
+assignment.
+
+Chapter I was also a pretty informative chapter.  Although I've encountered
+the Disclose and Enclose operators before in the Game of Life function, I
+was a little bit surprised by them in this chapter.  I assumed that since
+there didn't appear to be explicit typing in APL that you could just put
+replace anything in an pre-existing vector with anything else.  I was
+surprised that you could not replace a scalar with a vector and that you had
+to Enclose it first.  My original understanding of these operators was pretty
+superficial and it was nice to have a more indepth explanation of them.
+
+Finally, I was glad to learn of Each.  I think it will really help me
+write better APL-style code.  Previously I had been explicitly looping
+using flow control in a more traditional style of programming.  I'm
+curious to see how I can use Each effectively since it seems pretty 
+powerful.
+
+
+3. Difficulties:
+
+I think the Split and Mix operators were the most difficult part of this
+chapter.  The way that they manipulate the depth of nested arrays was a bit
+difficult for me to wrap my head around.
+
+Additionally, Partition and Partitioned Enclose was kind of alarming,
+mostly due to the fact that the definitions for these functions change
+depending on the flavor of APL.  It seems strange to me that you can change this
+behavior on the fly using ⎕ML and I think that it could be confusing.  I don't
+think it is obvious to the beginning APL programmer that the definitions of
+functions can change based upon a system setting.
+
+4. What I Found Easy:
+
+I think the Union and Intersection functions were probably the easiest part
+as it's kind of refreshing to see some familiar symbols that do what you'd
+expect.
+
+5. Impressions:
+
+I had no idea that something like Each existed in APL and I would not think
+to look for it on my own so I am glad that I read this chapter.  A lot of
+symbols in APL seem to be fairly nonobvious and I think that before I attempt
+any more Project Euler problems that I should read the chapter on math.
+
+6. Dislikes:
+
+I'm not too keen on the ⎕ML system function.  I understand that it's necessary
+to maintain compatibility with other flavors of APL, but I feel that it
+is yet another obfuscating layer that makes the language more difficult to
+comprehend.
+
+
+7. Code:
+
+Nothing notable, I just played around with a few of the new operators.

@@ -1,0 +1,73 @@
+Learning Dyalog APL - A Journal
+
+Introduction:
+------------------------------------
+Note: When I began writing this I thought the Introduction was a chapter that needed to be covered. Now I realize it was just an introduction!
+
+(“Will You Follow Us?”)
+
+As I read the introduction of Mastering Dyalog APL, my feelings were initially mixed. I think that while the idea of learning Dyalog APL is definitely an exciting prospect (the paragraph “Beware: Dyalog APL is Addictive!” really does a good job of hyping it), the special symbols that APL uses may be a bit intimidating at first – especially to novice programmers. At first glance, the idiom “It’s all Greek to me!” really applies here. However, I don’t think that learning the symbols will be particularly more difficult than learning the standard commands and functions of a traditional language. I do think it will be important for students to learn the key combinations for these symbols, though.
+
+(“Our First Steps into APL’s Magic World”)
+
+The book asserts that using the actual symbols for multiplication and division (instead of * and /) makes the language more accessible for non-programmers. Even though this may very well be true, I think it may be problematic that the * symbol is used for the “power” operation. It’s really just a minor gripe, but I think it’s worth noting that learning Dyalog APL will involve the changing of some old habits.
+
+One thing that I really like so far about Dyalog APL is the variable assignment system. So far it just seems really streamlined.
+
+(“Array Processing”)
+
+In addition to the variable declaration, I am also impressed by the way Dyalog APL handles arrays and matrices. The fact that loops aren’t required to apply a function across the array makes the code appear much more legible. Although I’m sure that other languages have libraries that can emulate this behavior, I believe that the inclusion of this in the APL language itself is definitely a plus.
+
+(“More Symbols”)
+
+This section is pretty straightforward. Like I’ve said, it just takes a little effort and time to memorize what all of these symbols mean.
+
+(“Most Symbols Have a Double Meaning”)
+
+I feel that while the monadic and dyadic usage of symbols may be slightly confusing at first, their usage should be pretty intuitive after some practice with the language. The Rho symbol seems pretty straightforward at least.
+
+(“Reduction Unifies Traditional Notations”)
+
+Reduction is simple enough to understand and appears to be quite powerful.
+
+(“Let's Write Our First Programs”)
+
+When writing the first couple of functions, I was a bit confused on what the text meant by “the array passed on the right” and “the array passed on the left,” however after a few examples it was pretty obvious. Other than that I had no difficulties following along.
+
+(“Indexing”)
+
+Indexing seems very intuitive and that fact that you can extract multiple indices at once sounds great.
+
+(“Calculating Without Writing Programs”)
+
+The “Sum the Salaries multiplied by Rates according to Categories” sample exercise here is relatively simple to understand, but simultaneously pretty incredible. Like the book says, it is not the method that I, having prior programming experience, would have thought of. I thought it was an impressive display of the potential of Dyalog APL.
+
+(“Friendly Binary Data”)
+
+I didn’t find anything out of the ordinary here. It does feel a little strange that there is no XOR symbol, but it should not be too difficult to just use the not-equal symbol instead.
+
+(“A Touch of Modern Math”)
+
+The member symbol isn’t too confusing. I think it should actually make things a lot easier for new programmers.
+
+(“A Powerful Search Function”)
+
+Ok, so this search function may be a little less straightforward than some of the other functions. First of all, it’s not clear to me why the dyadic iota is the symbol that is used for searching, but I’ll just accept it. Secondly, it is also a little strange to me that the function returns the list length + 1 when an item is not found. The book does, in fact, describe why this is done and the utility of it. It was just a little unexpected.
+
+(“After Values, Let Us Process Shapes”)
+
+Like the member function, I think the shape processing functions are simple and that they help make things a lot easier.
+
+(“Back to Primary School”)
+
+I don’t think the concepts behind the outer product operator are too difficult to grasp.
+
+Chapter A: Getting Started
+------------------------------------
+
+This chapter just covers the installation of the software and how to use the tutorial so I don’t really have anything to write about.
+
+Chapter B: Data and Variables
+------------------------------------
+
+Chapter B started out very smoothly. All was going well and I had no issues up until section 5.2 “The Shape of the Result.” Here I was confused when they inputted '-⎕'[Planning+1] and then asked “Do you understand why we added 1?” Well in all honesty, no I didn’t understand. For some reason I didn’t recognize '-⎕' as a vector and I thought it was a function. However, after a little bit of thought I figured it out and realize that Planning was a matrix of indices and that the +1 was necessary to make the indices functional (1s and 2s instead of 0s and 1s). Then I realized that the book explains this in the next paragraph…

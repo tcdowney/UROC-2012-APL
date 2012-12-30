@@ -1,0 +1,65 @@
+Tim Downey
+APL Dyalog Journal
+3-19-2012
+
+Entry 7:
+
+1.  Covered for this entry:
+
+For this entry I have covered Chapter G in Mastering Dyalog (pg 299-316)
+and I offer my initial concerns about translating some of the NAS Parallel
+Benchmarks into Dyalog APL code.
+
+2.  What I found interesting:
+
+In spite (or perhaps due to) its brevity, I found Chapter G to be very
+interesting.  The chapter covered some of the data shaping operators in
+Dyalog APL, notably take/drop, reverse/transpore, expand, laminate, and rotate.
+
+Though I had dabbled a bit with the reverse in the fourth Project Euler 
+problem, I was actually not aware of take and drop nor was I confidant in my
+ability to use rotate properly.  Though they seem trivial, I had almost
+resigned myself to using a crude, rudimentary version of drop for one of the
+Project Euler problems (I later realized that a drop wasn't necessary anyway).
+
+In short, I was very pleased that APL had these operators available.
+
+Additionally, as I looked through the NAS Parallel Benchmarks it occurred
+to me that we would need to be doing parallel programming (pretty obvious
+I know).  So I started looking into how exactly this was done in APL
+and I ended up reading an article from Vector and a blog post on the
+subject.  Now, I may be incorrect, but it seems that APL is already
+highly parallel by design, and I'm interested in finding out more
+regarding this.
+
+Sites I visited:
+http://archive.vector.org.uk/art10500350
+http://lathwellproductions.ca/wordpress/2010/06/04/resurgence-of-parallelism/
+
+3. Difficulties:
+
+Of the data shaping operators, the only one that I had some difficulty with
+was laminate.  The fact that you need to use a fractional-valued axis when
+laminating was what troubled me, and I'm still not too confident with my
+ability to laminate properly.
+
+4. What I Found Easy:
+
+Take/drop and reverse/transpose were pretty simple.
+
+5. Impressions:
+
+Converting the NAS benchmarks is going to be more challenging than I previously
+thought!
+
+6. Dislikes:
+
+No dislikes related to APL.  I do have some minor grips regarding the download
+process for the NAS Parallel Benchmarks source code!!
+
+
+7. Code:
+
+None
+
+

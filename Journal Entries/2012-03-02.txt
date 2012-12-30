@@ -1,0 +1,103 @@
+﻿Tim Downey
+APL Dyalog Journal
+3-02-2012
+
+Entry 6:
+
+1.  Covered for this entry:
+
+For this entry I have covered Chapter F in Mastering Dyalog APL (pg 273-291).
+Chapter F covers the Execute function and the various ways to format data
+in Dyalog.
+
+Additionally, I have also now completed problems 4,5, and 6 on Project Euler.
+
+Project Euler Username: tcdowney
+
+2.  What I found interesting:
+
+I found it interesting that Dyalog APL had so many methods to format and
+encode data.  I didn't know that there were was a function that could
+manipulate the column width of matrices and a system to format numbers
+to make them more visually appealing.
+
+3. Difficulties:
+
+I found the section on the ⎕FMT System Function to be a little difficult.
+I understand what it does and how it is used, but there is a lot of complexity
+to it with all of the different specifications and their qualifiers and
+affixtures.  This portion of the chapter was a little overwhelming, and I could
+definitely not repeat portions of it from memory.  Used as a reference,
+howeverm I believe that I could work with ⎕FMT.
+
+4. What I Found Easy:
+
+The Execute function is pretty simple and I had no problems with it.  In fact,
+I used it in my solution for Project Euler Problem 4 before I had even read
+Chapter F because its appearance seemed to imply that it would unformat my
+formatted numbers.
+
+5. Impressions:
+
+The section regarding the ⎕FMT System Function reminded me a little bit of the
+RegEx in Java.
+
+6. Dislikes:
+
+I had no dislikes in particular.
+
+
+7. Code:
+Here is the code that I have written for problems 4, 5, and 6 on Project Euler.
+
+--------------------------------
+Problem 4:
+Find the largest palindrome made from the product of two 3-digit numbers.
+
+ res←palindrome;x;y;res
+ x←999
+ y←999
+ res←⍬
+
+ :While (x>99)
+
+     :While (y>99)
+         :If ((⍎⍕x×y)=(⍎⌽⍕x×y))
+             res←res,x×y
+
+         :EndIf
+         y←y-1
+
+     :EndWhile
+     x←x-1
+     y←999
+ :EndWhile
+ ⌈/res
+
+--------------------------------
+
+Problem 5:
+What is the smallest positive number that is evenly 
+divisible by all of the numbers from 1 to 20?
+
+ m←problem5 n;m;i
+ m←1
+ i←2
+
+ :While (i<n)
+     m←m∧i
+     i←i+1
+ :EndWhile
+
+problem5 20
+
+Answer:
+232792560
+
+--------------------------------
+
+Problem 6:
+Find the difference between the sum of the squares of the 
+first one hundred natural numbers and the square of the sum.
+
+((+/(⍳100))*2)-(+/((⍳100)*2))

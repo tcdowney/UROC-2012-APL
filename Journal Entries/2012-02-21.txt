@@ -1,0 +1,71 @@
+Tim Downey
+APL Dyalog Journal
+2-21-2012
+
+Entry 3:
+
+1.  Covered for this entry:
+
+In this entry I have covered the first half of Chapter D
+in Mastering Dyalog APL (pages 147-186).  These pages covered 
+the creation of some simple user defined functions and introduced
+flow control in APL.
+
+2.  What I found interesting:
+
+I was surprised with the built in code editing features of the IDE.
+I had never realized it before, but I was impressed with how the IDE
+displayed the code contained within a defined function just by hovering
+the mouse over it.  Additionally, I thought it was nice that there was
+a built-in text editor that could edit these functions just by clicking on
+them.
+
+Additionally, I found the sections on flow control interesting, mainly due to
+the existence of the :GoTo keyword.  I have never actually done anything
+with GoTo and I know that in Java that it is a reserved keyword, but cannot
+actually be used.  This was just something that intrigued me.
+
+3. Difficulties:
+
+My primary difficulty with APL so far has just been with my ability to read
+and understand the code.  The examples in the book so far are all simple and
+easy enough to understand, but when I encounter something such as the 
+"Game of Life" function I have difficulties.  To me the code just looks like
+a string of hieroglyphs and I find myself missing the verbosity of other
+languages.  Writing APL, however, is not nearly as difficult.  In fact, I find
+that in order to understand an expression it is faster for me to just rewrite 
+it from scratch, adding each operator/function as necessary and seeing what 
+happens.
+
+I did spend a while working through the first few exercises that were
+presented in the chapter.  Although they were fairly trivial, I found that
+I needed to go back and reread parts of chapters B and C to complete them.
+
+4. What I Found Easy:
+
+The information on flow control has been easy enough to understand.  It was
+refreshing to learn something that was more familiar to me.  I've encountered
+most of the different kinds of conditionals and loops already in Java and
+Actionscript so it was basically just an exercise in learning the syntactical
+differences.
+
+5. Impressions:
+
+Upon seeing the GoTo keyword I was compelled to research the history of APL
+a bit and I was surprised to see that APL first appeared in 1964 and that it
+stood for "A Programming Language."  I found that interesting, but other than
+that I do not have any new impressions since the last journal entry.
+
+6. Dislikes:
+
+Again I've just been frustrated with the IDE losing keyboard support.  I still
+have yet to figure out why this occurs and it is becoming a major annoyance.
+
+Additionally, I am finding myself starting to dislike the symbols.  Though it
+is probably due to my own inexperience with APL I find complicated expressions
+confusing as I mentioned earlier.
+
+7. Code:
+
+There has been no code written other than what was required for the exercises
+D1 through D10.  This can all be found within the Masterying Dyalog text.

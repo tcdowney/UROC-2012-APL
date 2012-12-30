@@ -1,0 +1,111 @@
+﻿Tim Downey
+APL Dyalog Journal
+4-07-2012
+
+Entry 10:
+
+1.  Covered for this entry:
+
+This entry covers the material from Chapter J of Mastering Dyalog (pg 377-423).
+Chapter J covers the primary operators of Dyalog including the operaotrs formed
+by / and \, outer and inner products, compose, commute, power, and spawn.
+
+2.  What I found interesting:
+
+I was mostly surprised by the fact that the terms operator and function are
+not actually interchangeable.  In my past journals I have tended to switch
+freely between them when describing functions/operators and, as it turns out,
+they are two very different things.
+
+Basically, operators differ from functions in that they act upon functions
+and that monadic operators accept arguments on the left, not on the right.
+
+This was good to know.
+
+3. Difficulties:
+
+Overall, I would say that Chapter J was probably the most difficult chapter
+to learn so far.  In fact, I wouldn't even say that I've "learned" it.  Rather,
+it is probably more prudent to say that I have a cursory knowledge of the
+material covered in Chapter J.  To be more specific, I am still unsure of how
+to effectively use Scan, Inner Product, and the Power operator.
+
+Although I have a surface-level understanding of what they are used for/how
+they are used, I personally find the examples in the text to be a bit dry and
+hard to absorb.  I think if APL were to be taught to a general undergraduate
+level computer science class that there needs to be some alternative method of
+teaching these sections.  I think that maybe even a video-lecture style format
+(a la Khan Academy) might be more valuable.
+
+Nevertheless, this chapter did increase my awareness of these operators, which
+I think is what is actually important.  If I'm ever faced with a task that
+would benefit through their use I will know where to look! 
+
+4. What I Found Easy:
+
+At this point, reduction is pretty easy to understand and I am glad that the
+chapter began with it.  Additionally, Compose and Outer Product are pretty
+simple.
+
+5. Impressions:
+
+There is a lot of complexity to be found in some of these operators.  Many of
+them have different forms of usage and I think that it can be a little
+confusing.
+
+Additionally, I disagree with statements such as the following:
+
+"Cum ← +/ Limits ∬.< Ages
+Cum - 1∸ Cum,0
+56 32 56 104 63 38 37 14
+Without any programming, it works whatever the number of people or categories.
+Isn't it like magic?"
+
+The aim of this code presented in the text is to find the amount of people
+that are withing certain age groups.  Now I'll admit that the solution to the
+problem is remarkably terse.  However, I disagree with the premise that no
+actual programming is required to accomplish it.
+
+Although it differs from the more traditional way of programming, I would argue
+that the thought process that is needed to conjure up this APL "magic" is still
+programming.  Although the loops and individual operations are not explicit,
+they are still present in the programmer's mind.  The only difference, at least
+to me, is that the APL solution is more opaque... more mystical.  I'm not
+actually convinced that this is a good thing.
+
+6. Dislikes:
+
+As more symbols are introduced I am finding myself starting to dislike them.
+In the past when I've attempted to learn a programming language it has been
+easy to search the web with a function/class name to find sample code and other
+examples for help.  Although I am aware that APL has a smaller userbase than
+other languages, I am not so sure that I could find relevant help if it was
+actually available, primarily due to the fact that APL does not use an ASCII
+character set like the web as a whole.
+
+For example, say that I would like to search for examples using the operator
+⍣.  Assuming that I know the name, should I refer to it as Dieresis Star or as
+the Power operator?
+
+Likewise for the symbol ⊖, should I call it Circle Bar, Reverse Along First
+Axis, or Rotate Along First Axis?  I believe this to be a definite downside to
+the usage of these Unicode symbols, and although it won't cause much of a
+problem to experienced programmers, I think it could be an issue if APL were
+ever taught in an undergraduate classroom setting.
+
+Although a similar issue with special characters occurs with math, I think it
+is more critical that a programming language should be easily searchable
+online.  This wouldn't be a problem, however, if search engines were more
+sensitive to special characters in general...
+
+7. Code:
+As I'm still trying to understand the NPB Parallel Benchmarks, I haven't
+actually had a chance to produce any new APL code.  However, I would like
+to mention something about the Compose operator.  I've run into issues
+before where my workspace would run out of memory in cases similar to
+⍴¨⍴¨Vec.  It is actually really useful that these two shape operators can
+be merged into a single "double shape" operator since it cuts out a certain
+memory "middle man" issue.
+
+
+

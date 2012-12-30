@@ -3,7 +3,7 @@ IU UROC 2012 - Dyalog APL Project
 
 NAS Parallel Benchmarks
 ----------------
-For our research project, my partner Brett Schrank and I studied Dyalog APL and worked with our graduate mentor [Aaron Hsu](@arcfide) to translate three of the [NAS Parallel Benchmarks](http://www.nas.nasa.gov/publications/npb.html) (Integer Sort, Conjugant Gradient, and Embarassingly Parallel) from C and FORTRAN into APL.
+For our research project, my partner Brett Schrank and I studied Dyalog APL and worked with our graduate mentor [Aaron Hsu](https://github.com/arcfide) to translate three of the [NAS Parallel Benchmarks](http://www.nas.nasa.gov/publications/npb.html) (Integer Sort, Conjugant Gradient, and Embarassingly Parallel) from C and FORTRAN into APL.
 
 Our implementations of these benchmarks can be found in `benchmarks.tex` in the `NAS Parallel Benchmarks` folder.  To help others make sense of the relatively foreign looking code, Aaron has packaged everything as a nice tex document that is meant to be executed with his [ConTeXtLP](https://github.com/arcfide/ConTeXtLP) literate programming system.
 

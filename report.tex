@@ -1,0 +1,518 @@
+﻿\input ConTeXtLPMacros
+
+\definefontsynonym[APL][Apl385]
+\setupbodyfont[xits]
+\definefont[tt][APL sa 1]
+
+\setuppapersize[letter][letter]
+\setupwhitespace[medium]
+
+\starttext
+\startfrontmatter
+\title{HPAPL: The Compiler}
+
+\vfill
+Copyright $\copyright$ 2012 \hfill\break
+Aaron W. Hsu $⟨${\tt arcfide@sacrideo.us}$⟩$,\hfill\break
+Brett Schrank $⟨${\tt bschrank@indiana.edu}$⟩$,\hfill\break
+Timothy Downey $⟨${\tt tcdowney@indiana.edu}$⟩$.
+
+Permission to use, copy, modify, and distribute this software for any
+purpose with or without fee is hereby granted, provided that the above
+copyright notice and this permission notice appear in all copies.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+\completecontent
+\stopfrontmatter
+
+\startbodymatter
+
+\chapter{Introduction}
+
+This is an implementation of the NAS Parallel Benchmarks for Dyalog APL.
+At the moment, it includes implementations of the IS, EP, and CG 
+micro-benchmarks.  Our intention in creating these benchmarks is to 
+establish a baseline of performance for current industrial strength 
+implementations of APL, against which new research in APL optimization 
+may be judged.  The NPB benchmark suite is a straigthforward, but 
+well accepted set of benchmarks for testing distributed and parallel 
+computation, which we anticipate will be the focus of modern APL 
+optimization efforts.
+
+Each benchmark is defined in its own namespace named according to its 
+two-letter identifier. The following namespace can be used to load in 
+individual benchmarks into an APL session.
+
+\defchunk{Benchmark Loader}
+:Namespace Loader
+  benchfile←'./dyalog_npb.tex'
+  ∇ Load BNM;CN;FN
+    #.⎕SE.SALT.Load './ConTeXtLP -Target=#'
+    CN←BNM,' Namespace'
+    FN←'./',BNM,'.dyalog'
+    CN #.ConTeXtLP.Tangle benchfile FN
+    #.⎕SE.SALT.Load FN,' -Target=#'
+  ∇
+:EndNamespace
+\stopchunk
+
+To initially bootstrap the system, you can use the provided 
+“boostrap.dyalog” file.  Otherwise, you can manually tangle the loader 
+namespace using the following set of session commands.
+
+\starttyping
+]LOAD ./ConTeXtLP
+'Benchmark Loader' ConTeXtLP.Tangle './dyalog_npb.tex' './loader.dyalog'
+]LOAD ./loader
+\stoptyping
+
+\chapter{Random Number Generation}
+
+Most of the NPB benchmarks require a specific style and implemenation 
+of a random number generator in order to get deterministic results. 
+Specifically, it is a linear congruential generator that obeys the following 
+sequence for producing the next seeds.
+
+\startformula
+x_1 = ax_0\ (\mod 2^{46})
+\stopformula
+
+And the random number is generated on the range $(0,1)$ by computing 
+$2^{-46}x$. We implement this as a class to make it easier to encapsulate 
+the state data. You create a random generator by passing either a seed 
+or a seed and an $a$ multiplier, which by default is $5^{13}$. 
+
+\defchunk{Random Namespace}
+:Class Random
+   ⎕IO ⎕ML←0 0
+   Seed A V←0 0,2*24
+   
+   ∇Make S
+    :Access Public
+    :Implements Constructor
+    ⎕SIGNAL (1≡⊃⍴S)/11
+    Seed A←S,5*13
+   ∇
+   
+   ∇MakeWithA(s a)
+    :Access Public
+    :Implements Constructor
+    Seed A←s a
+   ∇
+   
+   Mul←{(2*46)|V⊥(V|A+.×B),[¯0.5](0⌷A←⌽V V⊤⍺)×1⌷B←V V⊤⍵}
+	
+   ∇R←RandI N
+    :Access Public
+    R←Seed
+	0 0⍴({⍵ Mul ⍵⊣R,←⍵ Mul R}⍣(⌈2⍟N))A
+	Seed←⊢/R←N↑R⊣R,←A Mul⊢/R←1↓R
+	R←R×2*¯46
+   ∇
+:EndClass
+\stopchunk
+
+\chapter{Timing Benchmark Results}
+
+To unify the timing mechanism for all of these benchmarks, we provide 
+a class for timing.
+
+\defchunk{Timer Namespace}
+:Class Timer
+    ⎕IO ⎕ML←0 0
+    
+    start←0
+    end←0
+    
+    ∇ T←CurrentTime
+      :Access Public
+      T←(÷1000)×24 60 60 1000⊥3↓⎕TS
+    ∇
+    
+    ∇ Start
+      :Access Public
+      start←CurrentTime
+    ∇
+    
+    ∇ End
+      :Access Public
+      end←CurrentTime
+    ∇
+    
+    ∇ Extend
+      :Access Public
+      End
+    ∇
+    
+    ∇ R←Spent
+      :Access Public
+      R←end-start
+    ∇
+:EndClass
+\stopchunk
+
+\chapter{IS: Integer Sort}
+
+The purpose of the IS benchmark is to test parallel sorting operations 
+and uniform distribution of keys in memory.  To accomplish this we generate
+N keys using the random number generator defined in Section 2.  Timing begins,
+and sorting is accomplished by computing the rank of each key.  The rank of a 
+key is defined as the index that the key would have in the sorted list.  During
+ranking partial verification tests are performed to ensure the integrity of the 
+procedure.  At the conclusion of timing, a full verification of the sort is
+performed.
+
+\defchunk
+ClassA←(2*23)(2*19)314159265 10
+N Bmax startSeed Imax←class
+:If class≡ClassA
+	partialKeyIndex←211237 662041 5336171 3642833 4250760  
+	partialKeyRank←104 17523 123928 8288932 8388264        
+:EndIf
+\stopchunk
+
+To run the IS benchmark, a class definition is passed as its right argument.
+\textit{ClassA} is defined in accordance with the NAS Parallel Benchmark specifications,
+where \textit{N} is the number of random keys generated, \textit{Bmax} is an index used when
+modifying the sequence of keys, \textit{startSeed} is the beginning seed for the random
+number generator, and \textit{Imax} is the number of iterations for modifying the
+sequence of keys.
+
+This version of the benchmark currently works only with \textit{ClassA}, but it could be
+modified to include other class specifications.  The following :If statement
+provides the necessary values for the partial verification of \textit{ClassA}.  See
+Table 2.8 and Figure 2.9 in the NPB documentation for further information on
+what these values mean.
+ 
+\defchunk
+Gen←⎕NEW #.Random(startSeed,5*13)
+keys←Gen.RandI N
+\stopchunk
+
+Here generate \textit{keys}, an array of random numbers of \textit{N} length.
+
+\defchunk
+Ts←24 60 60 1000⊥3↓⎕TS
+:For i :In ⍳Imax
+	keys[i Imax+i]←i Bmax-i                                
+	R←⍋keys                                               
+	:For j :In ⍳5                                         
+		:If j<3
+			:If R[partialKeyIndex[j]]≠partialKeyRank[j]+i
+				⎕←'Iteration',i,': Partial verification failed.'
+			:EndIf
+		:Else
+			:If R[partialKeyIndex[j]]≠partialKeyRank[j]-i
+				⎕←'Iteration',i,': Partial verification failed.'
+			:EndIf
+		:EndIf
+	:EndFor
+:EndFor
+\stopchunk
+
+Timing begins at this point.  First a time stamp is acquired with the ⎕TS
+system function.  However, it is provided in a format that includes 
+superfluous information such as the month and year.  We drop the first three
+entries and combine the hours, minutes, seconds, and milliseconds into a single
+value using the Decode operator.  This saves the start time, \textit{Ts}.
+
+Next we modify the sequence of keys through the following method:
+
+\startformula
+keys_{i} \leftarrow i
+keys_{i + Imax} \leftarrow (Bmax - i)
+\stopformula
+
+This is accomplished through the use of a multiple index assignment.
+
+Then we conveniently compute the ranks of the keys with the GradeUp 
+primitive and assign them to the vector \textit{R}.
+
+Within each iteration, we also perform a partial verification test.  This test
+checks whether the rank at a particular index in \textit{R} is equal to the 
+provided reference rank.  The values for this index are given in 
+\textit{partialKeyIndex}, while the comparison values are provided in the 
+corresponding \textit{partialKeyRank} array.  There are five total values to
+test; we accomplish this through a simple :For loop.  Refer once more to 
+Table 2.8 in the NPB documentation for the values used in partial verification.
+
+\defchunk
+Te←24 60 60 1000⊥3↓⎕TS                                    
+⎕←'Time taken: ',(⍕(Te-Ts)÷1000),' seconds.'
+:If ∧/2≤/keys[R]                                           
+	⎕←'Full verification suceeded.'
+:Else
+	⎕←'Full verification failed.'
+:EndIf
+\stopchunk
+
+We record the end time, \textit{Te}, in the same manner as \textit{Ts}.  We
+then subtract \textit{Te} from \textit{Ts} and divide it by 1000 to return
+the total number of seconds elapsed.
+
+Once timing is complete, a full verification test is performed.  The keys are
+rearranged in their ranking order, which is easily done by indexing the ranks
+contained in \textit{R}.  Next we compare each pair of keys, testing to see
+whether
+
+\startformula
+keys_{i} \leq keys_{i+1} for every keys_{i} from i=0...N-2
+\stopformula
+
+This is accomplished by performing a pairwise reduction of the less-than-or-equal-
+to primitive over the ranked keys. This creates a new array of boolean values
+which express whether each pair satisfied the inequality.  A simple "and" reduction
+determines whether every pair satisfies the inequality, or that the keys are in fact
+in sorted order.
+
+Our first attempt at full verification did not make use of the pairwise reduction,
+relying instead upon the simple reduction.  This, however, does not work due to 
+the right-to-left order of operations in APL.
+
+The entire IS benchmark is provided below for full viewing:
+
+\defchunk{IS Namespace}
+﻿:Namespace IS
+
+    ClassA←(2*23)(2*19)314159265 10
+
+    ∇ Run class;N;Bmax;startSeed;Imax;keys;Seed;Ts;i;R;Te;partialKeyIndex;partialKeyRank;j;Gen
+      ⍝ Parameter values used by various classes,
+      ⍝ See Figure 2.9 of NPB IS benchmark document.
+      N Bmax startSeed Imax←class
+      :If class≡ClassA
+          partialKeyIndex←211237 662041 5336171 3642833 4250760  ⍝ Values to be used for partial
+          partialKeyRank←104 17523 123928 8288932 8388264        ⍝ verification as specified in Table 2.8
+      :EndIf
+      Gen←⎕NEW #.Random(startSeed,5*13)
+      keys←Gen.RandI N                                           ⍝ Generate N keys
+      Ts←24 60 60 1000⊥3↓⎕TS                                     ⍝ Begin timing
+      :For i :In ⍳Imax
+          keys[i Imax+i]←i Bmax-i                                ⍝ Modify sequence of keys
+          R←⍋keys                                                ⍝ Compute the ranks of keys
+          :For j :In ⍳5                                          ⍝ Partial verification test
+              :If j<3
+                  :If R[partialKeyIndex[j]]≠partialKeyRank[j]+i
+                      ⎕←'Iteration',i,': Partial verification failed.'
+                  :EndIf
+              :Else
+                  :If R[partialKeyIndex[j]]≠partialKeyRank[j]-i
+                      ⎕←'Iteration',i,': Partial verification failed.'
+                  :EndIf
+              :EndIf
+          :EndFor
+      :EndFor
+      Te←24 60 60 1000⊥3↓⎕TS                                     ⍝ End timing
+      ⎕←'Time taken: ',(⍕(Te-Ts)÷1000),' seconds.'
+      :If ∧/2≤/keys[R]                                           ⍝ Full verification test
+          ⎕←'Full verification suceeded.'
+      :Else
+          ⎕←'Full verification failed.'
+      :EndIf
+    ∇
+
+:EndNamespace 
+\stopchunk
+
+\chapter{EP: Embarassingly Parallel}
+
+The purpose of the EP benchmark is to generate pairs of Gaussian random
+deviates and tabulate the number of pairs in successive square annuli.
+According to the NPB documentation, this benchmark is related to Monte 
+Carlo simulations.  Due to the memory constraints caused by the magnitude 
+of random numbers generated and the various arrays required to store 
+information, it was necessary to break the task of the benchmark into 
+multiple blocks.  In fact, the name of the benchmark, "Embarassingly Parallel," 
+refers to the ability of this problem to be independently computed on multiple
+processors.
+
+This problem was beneficial to write in APL, for the algorithm 
+provided in the NPB documentation translated rather seamlessly to code.
+
+First we generate an array of random numbers (once again using the random 
+number generator provided in Section 2) of length 2n.  This array is used 
+to form two separate arrays, \textit{x} and \textit{y}, which represent pairs
+such that, for j in range 1 to n,
+
+\startformula
+x_{j} = 2r_{2j-1}-1
+y_{j} = 2r_{2j}-1
+\stopformula
+
+This ensures that these pairs are uniformly distributed on the interval (-1,1).
+
+Now we create a new array \textit{tf} that contains boolean values representing 
+whether all pairs in \textit{x} and \textit{y} satisfy the following inequality:
+
+\startformula 
+t = x^{2} + y^{2} \leq 1
+\stopformula
+
+We use \textit{tf} to eliminate all invalid pairs from \textit{x}, \textit{y},
+and \textit{t}.
+
+Next we form the Gaussian random deviates from these remaining valid pairs
+using the following formula:
+
+\startformula
+X = x\sqrt[2]{(-2ln t)/t}
+Y = y\sqrt[2]{(-2ln t)/t}
+\stopformula
+
+The above instructions were to be completed in each block.  The 
+function \textit{Run} takes as its left argument the block size and 
+computes the benchmark by splitting it up into separate sections.  
+Again, this was necessary due to the memory-intensive nature of 
+each array used in the program.
+
+The entire EP benchmark is provided below for full viewing.
+
+\defchunk{EP Namespace}
+:Namespace EP
+    ⎕IO ⎕ML←1 0
+    
+    Gen←⍬
+    
+    DoBlock←{
+        n←⍵
+        r←Gen.RandI 2×n
+        x y←⊂[2]¯1+2×r[¯1 0+[1]2 n⍴2×⍳n]
+        tf←1≥t←⊃+/x y*2
+        x y t←(⊂tf)/¨x y t
+        X Y←x y×⊂((¯2×⍟t)÷t)*÷2
+        Q←+/(l∘.≤M)∧(l+1)∘.>M←(|X)⌈|Y⊣l←¯1+⍳10
+        (+/¨X Y),Q
+    }
+    
+    ∇R←BS Run N;Time;C
+       Gen←⎕NEW #.Random(271828183,5*13)
+       Time←⎕NEW #.Timer
+       C←⌊N÷BS
+       Time.Start
+       R←BS({⍵+DoBlock ⍺}⍣C)12⍴0
+       R+←{0≠⍵: DoBlock ⍵ ⋄ 12⍴0} N-BS×C
+       Time.End
+       ⎕←'Running took ',(⍕Time.Spent),' seconds.'
+    ∇
+
+:EndNamespace
+\stopchunk
+
+\chapter{CG: Conjugate Gradient}
+
+\defchunk{CG Namespace}
+﻿:Namespace CG
+⍝ === VARIABLES ===
+
+    ClassA←14000 15 11 20
+
+    ClassSample←1400 15 7 10
+
+
+⍝ === End of variables definition ===
+
+    ⎕IO ⎕ML ⎕WX ⎕RL←0 0 3 2090219546
+
+    ∇ ZRN←X CgSparse A;R;Rho;P;I;Q;Alpha;RhoZ;Beta;Z
+      Z←0 ⋄ R←X ⋄ Rho←R+.×R ⋄ P←R
+      :For I :In ⍳25
+          Q←A SMVP P
+          Alpha←Rho÷P+.×Q
+          Z←Z+Alpha×P
+          RhoZ←Rho
+          R←R-Alpha×Q
+          Rho←R+.×R
+          Beta←Rho÷RhoZ
+          P←R+Beta×P
+      :EndFor
+      R←X-A SMVP Z
+      ZRN←Z((R+.×R)*0.5)
+    ∇
+
+    ∇ A←MakeSA(N NZ L);W;R;Xi;Xv;I;IV;RN;CI;DV;Ts;Te;S;Av;Ai;At;F
+     ⍝ Generate a test matrix of order N as the weighted sum of N outer products of
+     ⍝ random sparse vectors.
+      ⎕IO←0 ⋄ Ts←⎕TS
+      R←0.1*÷N-1                    ⍝ Geometric ratio for W
+      Ai Av←⍬ ⍬                     ⍝ Initialize empty sparse matrix A
+      :For I :In ⍳N
+          Xi←(I≠Xi)/Xi←NZ?N         ⍝ NZ nonzeros maybe with no X_i
+          Xv←(2*¯30)×?(⍴Xi)⍴2*30    ⍝ Random values (0..1)
+          Xi,←I ⋄ Xv,←0.5           ⍝ X_i is 0.5
+          Av,←(R*I)×,Xv∘.×Xv        ⍝ Catenate weighted outer product
+          At←((⍴Xi)*2)⍴Xi           ⍝ Nonzero row/column pattern
+          Ai,←At+N×,⍉(2⍴⍴Xi)⍴At     ⍝ Catenate respective ravel indices
+      :EndFor
+      S←⍋Ai ⋄ Ai←Ai[S] ⋄ Av←Av[S]
+      S←(1⌽Ai)≠Ai
+      IV←S/Ai
+      DV←S/+\Av
+      DV←(⊃DV),1↓DV-¯1⌽DV
+      CI←N|IV                              ⍝ Extract the Column indices
+      RN←N⍴0 ⋄ RN[(IV-CI)÷N]+←1            ⍝ Build the NZ row vector
+      DV[((RN/⍳⍴RN)=CI)/⍳⍴DV]+←0.1         ⍝ Diagonal gets additional 0.1
+      CI←N|CI-L                            ⍝ Shift the diagonal
+      A←RN CI DV                           ⍝ A with goodies
+      Te←⎕TS
+      ⎕←'Made array in ',(⍕Ts #.UTIL.TimerSecs Te),' seconds.'
+    ∇
+
+    ∇ R←M SMVP V;S;NZ;CI;DV;B;⎕IO
+      ⎕IO←0
+     ⍝ Sparse Matrix, Dense vector product, inspired by
+     ⍝  Hendriks, Ferdinand and Wai-Mee Ching.
+     ⍝  "Sparse Matrix Technology Tools in APL."
+     ⍝  1990 ACM.
+     ⍝ NZ CI DV←M                ⍝ Explode the matrix
+     ⍝ R←DV×V[CI]
+     ⍝ R←0,+\R            ⍝ Do the product
+     ⍝ R←R[(0≠NZ)×+\NZ]          ⍝ Get desired sums
+     ⍝ S←(0≠R)/⍳⍴R               ⍝ Select the nonzero results
+     ⍝ R[S]←R[⊃S],1↓R[S]-¯1⌽R[S] ⍝ Subtract excess
+      ⎕IO←0
+      NZ CI DV←M
+      B←(+/NZ)⍴0
+      B[¯1++\NZ]←1
+      R←(×NZ)\-2-/0,B/+\DV×V[CI]
+    ∇
+
+    ∇ (Cg Solve)(N NI NZ L);A;X;I;Z;R;Rn;Zeta;Ts;Te;⎕IO
+      ⎕IO←0
+      A←MakeSA N NZ L
+      X←N⍴1
+      ⎕←'Iteration        ∥R∥                 Zeta'
+      ⎕←'─────────────────────────────────────────────────────'
+      Ts←⎕TS
+      :For I :In 1+⍳NI
+          Z Rn←X Cg A
+          Zeta←L+÷X+.×Z
+          ⎕←9 0 20 ¯7 24 13⍕I Rn Zeta
+          X←Z÷(Z+.×Z)*0.5
+      :EndFor
+      Te←⎕TS
+      ⎕←''
+      ⎕←'Time taken: ',(⍕Ts #.UTIL.TimerSecs Te),' seconds.'
+    ∇
+
+:EndNamespace 
+\stopchunk
+
+
+\stopbodymatter
+
+\startappendices
+
+\stopappendices
+
+\startbackmatter
+\completeindex
+\stopbackmatter
+
+\stoptext

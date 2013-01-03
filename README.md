@@ -16,3 +16,5 @@ Learning APL
 For Brett and I, the main purpose of this project was to evaluate an "unusual" programming language and determine what challenges a novice programmer might face while learning it.  To do this, we each wrote a series of journal entries (my entries can be found in the `Journal Entries` folder) as we worked through the [Mastering Dyalog APL](http://www.dyalog.com/MasteringDyalogAPL/MasteringDyalogAPL.pdf) text.  Additionally, we completed a handful of [Project Euler](http://projecteuler.net/) problems to help put what we had been learning into practice.
 
 Brett and I then made a poster of our findings and presented it at the UROC poster session.  The poster is also located in the repository root as `poster.png`.
+
+Lastly, we both wrote a short paper entitled "Thoughts on APL" discussing our experience learning the language and our suggestions for making Dyalog APL more accessible to the beginner.  Again, this paper is located in the repository root in the document `thoughtsonapl.txt`. 
